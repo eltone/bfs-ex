@@ -14,6 +14,12 @@ defmodule DictionaryDashTest do
     assert path == {:not_in_dict, nil}
   end
 
+  test "when the start is not in the dictionary, return an error" do
+    dict = ~w(foo)
+    path = DictionaryDash.find_transformation("bar", "foo", dict)
+    assert path == {:not_in_dict, nil}
+  end
+
   test "correctly finds shortest path" do
     dict = ~w(cat bat mat hat foo bar cap bet get)
     path = DictionaryDash.find_transformation("cat", "get", dict)
