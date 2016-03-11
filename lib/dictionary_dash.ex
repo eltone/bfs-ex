@@ -13,15 +13,17 @@ defmodule DictionaryDash do
   end
 
   # the success scenario
-  defp _find_transformation(target, _, {{:value, [last|_] = path}, _}) when last == target do
+  defp _find_transformation(target, _, {{:value, [last_word|_] = path}, _})
+  when last_word == target do
+
     {:ok, length(path)}
   end
 
   # the failure scenario
   defp _find_transformation(_, _, {:empty, _}), do: {:no_path, nil}
 
-  defp _find_transformation(target, dictionary, {{:value, [last|_] = path}, queue}) do
-    updated_queue = last
+  defp _find_transformation(target, dictionary, {{:value, [last_word|_] = path}, queue}) do
+    updated_queue = last_word
     |> find_permutations(dictionary, path)
     |> construct_new_paths(path)
     |> enqueue_all_new_paths(queue)
