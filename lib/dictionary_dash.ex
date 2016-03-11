@@ -3,7 +3,7 @@ defmodule DictionaryDash do
   @letters 'abcdefghijklmnopqrstuvwxyz'
 
   def find_transformation(word, target, dictionary) do
-    case target in dictionary do
+    case target in dictionary && word in dictionary do
       false -> {:not_in_dict, nil}
       true ->
         queue = :queue.from_list([[word]])
@@ -23,8 +23,8 @@ defmodule DictionaryDash do
   defp _find_transformation(target, dictionary, {{:value, [last|_] = path}, queue}) do
     updated_queue = last
     |> find_permutations(dictionary, path)
-    |> Enum.map(&([&1|path]))
-    |> Enum.reduce(queue, fn(perm, acc_queue) -> :queue.in(perm, acc_queue) end)
+    |> construct_new_paths(path)
+    |> enqueue_all_new_paths(queue)
 
     dequeue_result = :queue.out(updated_queue)
     _find_transformation(target, dictionary, dequeue_result)
@@ -50,5 +50,15 @@ defmodule DictionaryDash do
     chars
     |> List.replace_at(pos, char)
     |> List.to_string
+  end
+
+  defp construct_new_paths(permutations, current_path) do
+    permutations
+    |> Enum.map(&([&1|current_path]))
+  end
+
+  defp enqueue_all_new_paths(paths, queue) do
+    paths
+    |> Enum.reduce(queue, fn(perm, acc_queue) -> :queue.in(perm, acc_queue) end)
   end
 end
