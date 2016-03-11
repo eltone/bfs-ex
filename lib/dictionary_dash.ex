@@ -7,7 +7,8 @@ defmodule DictionaryDash do
       false -> {:not_in_dict, nil}
       true ->
         queue = :queue.from_list([[word]])
-        _find_transformation(target, dictionary, :queue.out(queue))
+        dequeue_result = :queue.out(queue)
+        _find_transformation(target, dictionary, dequeue_result)
     end
   end
 
@@ -25,7 +26,8 @@ defmodule DictionaryDash do
     |> Enum.map(&([&1|path]))
     |> Enum.reduce(queue, fn(perm, acc_queue) -> :queue.in(perm, acc_queue) end)
 
-    _find_transformation(target, dictionary, :queue.out(updated_queue))
+    dequeue_result = :queue.out(updated_queue)
+    _find_transformation(target, dictionary, dequeue_result)
   end
 
   defp find_permutations(word, dictionary, exclude) do
