@@ -1,4 +1,4 @@
-defmodule DictionaryDashTest do
+defmodule BreadthFirstTest do
   use ExUnit.Case, async: true
   doctest DictionaryDash
 

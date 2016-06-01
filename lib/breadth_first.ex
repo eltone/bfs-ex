@@ -1,4 +1,4 @@
-defmodule DictionaryDash do
+defmodule BreadthFirst do
 
   @letters 'abcdefghijklmnopqrstuvwxyz'
 
